@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FireCloud Workflow &mdash; CRISPR-Seq 1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CRISPR-Seq 1 documentation" href="index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> CRISPR-Seq</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">FireCloud Workflow</a><ul>
+<li><a class="reference internal" href="#register-a-firecloud-account">Register a FireCloud Account</a></li>
+<li><a class="reference internal" href="#create-a-workspace">Create a Workspace</a></li>
+<li><a class="reference internal" href="#using-google-bucket">Using Google Bucket</a></li>
+<li><a class="reference internal" href="#upload-fastq-files">Upload FASTQ Files</a></li>
+<li><a class="reference internal" href="#upload-multiplex-barcodes">Upload Multiplex Barcodes</a></li>
+<li><a class="reference internal" href="#upload-grna-annotation">Upload gRNA Annotation</a></li>
+<li><a class="reference internal" href="#upload-negative-control-annotation">Upload negative control annotation</a></li>
+<li><a class="reference internal" href="#add-data-entity-to-workspace">Add Data Entity to Workspace</a></li>
+<li><a class="reference internal" href="#launch-analysis">Launch Analysis</a></li>
+<li><a class="reference internal" href="#monitor-analysis">Monitor Analysis</a></li>
+<li><a class="reference internal" href="#view-results">View Results</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CRISPR-Seq</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>FireCloud Workflow</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/firecloud.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="firecloud-workflow">
+<h1>FireCloud Workflow<a class="headerlink" href="#firecloud-workflow" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>FireCloud is a cloud-based genomics anlaysis platform developed at the Broad Institute. Billing is handled by the Google Cloud Platform, allowing FireCloud to be accessible to users external to the Broad Institute.</div></blockquote>
+<div class="section" id="register-a-firecloud-account">
+<h2>Register a FireCloud Account<a class="headerlink" href="#register-a-firecloud-account" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>First, register for FireCloud using the <a class="reference external" href="https://portal.firecloud.org">FireCloud portal</a>. This step only requires a Google account, such as Gmail.</p>
+<p>Second, create a Google Billing Account and attach it to the FireCloud account following these <a class="reference external" href="https://software.broadinstitute.org/firecloud/guide/topic?name=firecloud-google">instructions</a>. Google offers promotional credit for new accounts so new users can try CRISPR-Seq for free.</p>
+</div></blockquote>
+</div>
+<div class="section" id="create-a-workspace">
+<h2>Create a Workspace<a class="headerlink" href="#create-a-workspace" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>From the FireCloud portal, create a new workspace by clicking on the <code class="docutils literal"><span class="pre">Create</span> <span class="pre">New</span> <span class="pre">Workspace</span></code> button in the upper right corner of the main page. Workspace names within the same billing project must be unique so if you share the billing account with others, you might want to include your username in the workspace name, e.g. <code class="docutils literal"><span class="pre">CRISPRseq_&lt;username&gt;</span></code>.</p>
+<img alt="_images/create_workspace.png" src="_images/create_workspace.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>After creating the workspace, the summary tab will be displayed. In order to run the CRISPR-Seq analysis, the method definition must be imported into the workspace. Move to the <code class="docutils literal"><span class="pre">Method</span> <span class="pre">Configurations</span></code> tab and select <code class="docutils literal"><span class="pre">Import</span> <span class="pre">Configuration...</span></code>.</p>
+<img alt="_images/import_method.png" src="_images/import_method.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Enter &#8220;crisprseq&#8221; into the search field and select <code class="docutils literal"><span class="pre">Configs</span> <span class="pre">Only</span></code>. Select the most recent snapshot of the cpds/crisprseq and import it with the default namespace.</p>
+<img alt="_images/search_config.png" src="_images/search_config.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>When returning to FireCloud at a later time, use the filter on the main page to search for the workspace name and return to the summary tab.</p>
+</div></blockquote>
+</div>
+<div class="section" id="using-google-bucket">
+<h2>Using Google Bucket<a class="headerlink" href="#using-google-bucket" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>From the summary page of the FireCloud workspace, a link to the Google bucket associated with the workspace is displayed on the right side of the page. User files required for the analysis must be uploaded to this bucket.</p>
+<img alt="_images/bucket_ID.png" src="_images/bucket_ID.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Clicking on the bucket ID on the FireCloud workspace summary opens the Google Cloud Platform web interface where files can be uploaded directly.</p>
+<img alt="_images/upload_bucket.png" src="_images/upload_bucket.png" />
+</div></blockquote>
+</div>
+<div class="section" id="upload-fastq-files">
+<h2>Upload FASTQ Files<a class="headerlink" href="#upload-fastq-files" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>If the FASTQ files are on a local machine, it might be easiest to upload the files directly to the bucket using the web interface. However, if the files are not local, the gsutil from the <a href="#id1"><span class="problematic" id="id2">`</span></a>Google Cloud SDK &lt;<a class="reference external" href="https://cloud.google.com/sdk/">https://cloud.google.com/sdk/</a>&gt;`_has a function to move files directly to the bucket using the command line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>gsutil cp *.fastq gs://&lt;bucket&gt;
+</pre></div>
+</div>
+<p>Broad Institute users have the <code class="docutils literal"><span class="pre">.google-cloud-sdk</span></code> DOTKIT available for use on shared Broad servers that includes the <code class="docutils literal"><span class="pre">gsutil</span></code> function. One could write a simple script to transfer all fastq files in a directory to a Google bucket:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>#!/bin/bash
+
+#$ -cwd
+#$ -q long
+#$ -N googlebucket
+#$ -l m_mem_free=2g
+
+source /broad/software/scripts/useuse
+reuse .google-cloud-sdk
+
+gsutil cp *.fastq gs://&lt;bucket-ID&gt;/
+</pre></div>
+</div>
+<p>Assuming the script is saved as <code class="docutils literal"><span class="pre">bucket.sh</span></code>, Broad users could then submit to UGER to execute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ use UGER
+$ qsub bucket.sh
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="upload-multiplex-barcodes">
+<h2>Upload Multiplex Barcodes<a class="headerlink" href="#upload-multiplex-barcodes" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The barcode annotation is a two column, comma separated text file with the sample name in the first column and the barcode in the second column. Sample names must be unique and contain only alphanumeric characters, underscore, and hyphen. Here is an example of a barcode annotation table with 10 samples:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>BC_1</td>
+<td>AAGAACTA</td>
+</tr>
+<tr class="row-even"><td>BC_2</td>
+<td>AACTTGTA</td>
+</tr>
+<tr class="row-odd"><td>BC_3</td>
+<td>CCAGTGAT</td>
+</tr>
+<tr class="row-even"><td>BC_4</td>
+<td>TTGATGCG</td>
+</tr>
+<tr class="row-odd"><td>BC_5</td>
+<td>GGTCGTGC</td>
+</tr>
+<tr class="row-even"><td>BC_6</td>
+<td>GGAGTGTA</td>
+</tr>
+<tr class="row-odd"><td>BC_7</td>
+<td>TTAGACCG</td>
+</tr>
+<tr class="row-even"><td>BC_8</td>
+<td>CCGAACAT</td>
+</tr>
+<tr class="row-odd"><td>BC_9</td>
+<td>GGTCCACG</td>
+</tr>
+<tr class="row-even"><td>BC_10</td>
+<td>GGCTCAAT</td>
+</tr>
+</tbody>
+</table>
+<p>Save the barcode annotation table as a .csv and upload it to the workspace Google Bucket.</p>
+</div></blockquote>
+</div>
+<div class="section" id="upload-grna-annotation">
+<h2>Upload gRNA Annotation<a class="headerlink" href="#upload-grna-annotation" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The gRNAs used should be listed in a comma separated text file (.csv) with four columns; gene, strand, cut, and amplicon. Below is an example table for an experiment targeting four genes with one guide per gene. The column definitions are as follows:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gene</span></code>:     Any unique gene symbol identifier. If the same gene is targeted with multiple guides, say STAG2 is targeted with two gRNAs, the names should be something like STAG2_1 and STAG2_2.</li>
+<li><code class="docutils literal"><span class="pre">strand</span></code>: Indicates whether the gene is on the forward or reverse strand using + or - respectively.</li>
+<li><code class="docutils literal"><span class="pre">cut</span></code>: Specifies the Single base location representing the predicted cut site between the gRNA and the PAM in hg19 coordinates.</li>
+<li><code class="docutils literal"><span class="pre">amplicon</span></code>: Range from start to end of sequencing amplicon using hg19 coordinates.</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="26%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">gene</th>
+<th class="head">strand</th>
+<th class="head">cut</th>
+<th class="head">amplicon</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Gene1</td>
+<td>+</td>
+<td>10:112341797</td>
+<td>10:112341673-112341888</td>
+</tr>
+<tr class="row-odd"><td>Gene2</td>
+<td>-</td>
+<td>4:106155180</td>
+<td>4:106155115-106155320</td>
+</tr>
+<tr class="row-even"><td>Gene3</td>
+<td>-</td>
+<td>20:30956834</td>
+<td>20:30956741-30956945</td>
+</tr>
+<tr class="row-odd"><td>Gene4</td>
+<td>-</td>
+<td>17:29422368</td>
+<td>17:29422233-29422455</td>
+</tr>
+</tbody>
+</table>
+<p>Save the gRNA annotation table as a .csv and upload it to the workspace Google Bucket.</p>
+</div></blockquote>
+</div>
+<div class="section" id="upload-negative-control-annotation">
+<h2>Upload negative control annotation<a class="headerlink" href="#upload-negative-control-annotation" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Negative controls can be annotated in two forms; a list of samples, or a sample by gene matrix. If each negative control sample is a negative control for all target genes, the negative control samples can be listed with one on each line:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">sample</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Sample1</td>
+</tr>
+<tr class="row-odd"><td>Sample2</td>
+</tr>
+<tr class="row-even"><td>Sample3</td>
+</tr>
+<tr class="row-odd"><td>Sample4</td>
+</tr>
+</tbody>
+</table>
+<p>If negative control samples only serve as negative controls for particular gene targets, a binary sample by gene matrix can be used to indicate which sample/gene pairs are negative controls.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head">Gene1</th>
+<th class="head">Gene2</th>
+<th class="head">Gene3</th>
+<th class="head">Gene4</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Sample1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>Sample2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>Sample3</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Sample4</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="add-data-entity-to-workspace">
+<h2>Add Data Entity to Workspace<a class="headerlink" href="#add-data-entity-to-workspace" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The final required configuration file is simply a list of files that were uploaded to the workspace&#8217;s Google bucket. This includes the fastq and annotation files (barcode, gRNA, and negative control). Create a table with a single row and the following column headers:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="26%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">entity:participant_id</th>
+<th class="head">barcodes_list</th>
+<th class="head">barcodes_fastq</th>
+<th class="head">reads_fastq</th>
+<th class="head">gRNAs</th>
+<th class="head">controls</th>
+<th class="head">ref_idxs</th>
+<th class="head">ref_fasta</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>USER_VARIABLE</td>
+<td>USER_FILE</td>
+<td>USER_FILE</td>
+<td>USER_FILE</td>
+<td>USER_FILE</td>
+<td>USER_FILE</td>
+<td>gs://seq-references/ensembl/hg19/seq/hg19_files.txt</td>
+<td>gs://seq-references/ensembl/hg19/seq/Homo_sapiens_assembly19.fasta</td>
+</tr>
+</tbody>
+</table>
+<p>The fields marked with <code class="docutils literal"><span class="pre">USER</span></code> are specific to the experiment. The <code class="docutils literal"><span class="pre">ref_idxs</span></code> and <code class="docutils literal"><span class="pre">ref_fasta</span></code> fields are provided and constant for all experiments using the hg19 reference.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">entity:participant_id</span></code>: Unique experiment ID to differentiate workflow results within the workspace</li>
+<li><code class="docutils literal"><span class="pre">barcodes_list</span></code>: Link to the multiplex barcode annotation CSV file.</li>
+<li><code class="docutils literal"><span class="pre">barcodes_fastq</span></code>: Link to fastq file containing read barcodes.</li>
+<li><code class="docutils literal"><span class="pre">reads_fastq</span></code>: Link to fastq file containing reads.</li>
+<li><code class="docutils literal"><span class="pre">gRNAs</span></code>: Link to gRNA annotation CSV file.</li>
+<li><code class="docutils literal"><span class="pre">controls</span></code>: Link to negative control annotation CSV file.</li>
+<li><code class="docutils literal"><span class="pre">ref_idxs</span></code>: <code class="docutils literal"><span class="pre">gs://seq-references/ensembl/hg19/seq/hg19_files.txt</span></code></li>
+<li><code class="docutils literal"><span class="pre">ref_fasta</span></code>: <code class="docutils literal"><span class="pre">gs://seq-references/ensembl/hg19/seq/Homo_sapiens_assembly19.fasta</span></code></li>
+</ul>
+<p>The Google bucket format for links to files is <code class="docutils literal"><span class="pre">gs://bucketID/filename</span></code>, where the bucketID is listed on the workspace summary page and the filename is user defined.</p>
+<img alt="_images/bucket_ID.png" src="_images/bucket_ID.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Given a barcode annotation that was named <code class="docutils literal"><span class="pre">AU6R0_barcodes.csv</span></code> by the user and the bucket pictured above, the link would be <code class="docutils literal"><span class="pre">gs://fc-ae7d8f79-257d-4763-9128-27edfc148e42/AU6R0_barcodes.csv</span></code>.</p>
+<p>Once the table is complete, save it as a tab delimited text file and import it as a Data entity into the workspace using the Data tab within the workspace.</p>
+<img alt="_images/import_data.png" src="_images/import_data.png" />
+</div></blockquote>
+</div>
+<div class="section" id="launch-analysis">
+<h2>Launch Analysis<a class="headerlink" href="#launch-analysis" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>To run the workflow, navigate to the <code class="docutils literal"><span class="pre">Method</span> <span class="pre">Configurations</span></code> tab of the workspace and select the <code class="docutils literal"><span class="pre">crisprseq</span></code> method.</p>
+<img alt="_images/select_method.png" src="_images/select_method.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>From method configuration view select <code class="docutils literal"><span class="pre">Launch</span> <span class="pre">Analysis...</span></code>.</p>
+<img alt="_images/launch_analysis.png" src="_images/launch_analysis.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Select the Data entity to run the workflow on, and launch the analysis.</p>
+<img alt="_images/launch_analysis2.png" src="_images/launch_analysis2.png" />
+</div></blockquote>
+</div>
+<div class="section" id="monitor-analysis">
+<h2>Monitor Analysis<a class="headerlink" href="#monitor-analysis" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Refresh the <code class="docutils literal"><span class="pre">Monitor</span></code> tab of the workspace to make sure the analysis is running. A typical 2GB FASTQ file takes less than 2 hours to finish analyzing. In this example, if the analysis were to exceed a 4 hour time period, it is recommended to abort the analysis to avoid excess billing.</p>
+<img alt="_images/abort_job.png" src="_images/abort_job.png" />
+</div></blockquote>
+</div>
+<div class="section" id="view-results">
+<h2>View Results<a class="headerlink" href="#view-results" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>When the analysis is finished new columns will be added to the Data Entity. Clicking on the link in the table will take you to the Google Bucket with the output files. Descriptions of the outputs can be found here (ref).</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, J. Michael Krill-Burger.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
